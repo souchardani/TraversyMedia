@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax 1 - Text Files</title>
+  </head>
+  <body>
+    <button id="button">Get text files</button>
+    <br /><br />
+    <div id="text"></div>
+    <script>
+      //create event listener
+      document.getElementById("button").addEventListener("click", loadText);
+
+      function loadText() {
+        //Create XHR Object
+        var xhr = new XMLHttpRequest();
+        // OPEN - type, url, if async
+        xhr.open("GET", "sample2.txt", true); //a traves del objeto xhr, hacemos un request al server
+
+        console.log("readystate: " + xhr.readyState);
+
+        //Optional - used for loading or loaders
+        xhr.onprogress = function () {
+          console.log("readystate: " + xhr.readyState);
+        };
+
+        //en onload, el request se ejectua y podemos operar con la informacion y los datos contenidos en el
+        xhr.onload = function () {
+          console.log("readystate: " + xhr.readyState);
+          if (this.status == 200) {
+            // console.log(this.responseText);
+            document.getElementById("text").innerHTML = this.responseText;
+          } else if (this.status == 404) {
+            document.getElementById("text").innerHTML = "not found";
+          }
+        };
+
+        xhr.onerror = function () {
+          console.log("request error");
+        };
+
+        //en el caso de la funcion on readystatechange, se comporta igual que la funcion onload pero debemos comprobar tambien
+        //que el readystate value sea igual a 4
+        // xhr.onreadystatechange = function () {
+        //   console.log("readystate: " + xhr.readyState);
+
+        //   if (this.readyState == 4 && this.status == 200) {
+        //     //console.log(this.responseText);
+        //   }
+        // };
+        // //sends the request
+        xhr.send();
+      }
+
+      /*READYSTATES VALUES
+      0: request not initialized
+      1: server connection stablished
+      2: request received
+      3: processing request
+      4: request finished and response is ready
+
+      */
+
+      /*
+      HTTP STATUSES
+      200: ok
+      403: forbidden
+      404: not found
+
+      */
+    </script>
+  </body>
+</html>

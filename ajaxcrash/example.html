@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Activity</title>
+    <style>
+      #activity {
+        width: 800px;
+        height: 400px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: lightsteelblue;
+        border-radius: 16px;
+      }
+
+      #text {
+        margin: 0 auto;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="activity">
+      <input type="button" value="Get Activity" id="getacct" />
+      <br /><br />
+      <div id="text"></div>
+    </div>
+    <script>
+      document.getElementById("getacct").addEventListener("click", Ajactivity);
+
+      function Ajactivity() {
+        request = new XMLHttpRequest();
+        request.open("GET", "https://www.boredapi.com/api/activity", true);
+        request.onreadystatechange = function () {
+          if (request.readyState == 4 && request.status == 200) {
+            var x = JSON.parse(this.responseText);
+            var activity = x.activity;
+            var type = x.type;
+            var participants = x.participants;
+            var price = x.price;
+            document.getElementById(
+              "text"
+            ).innerHTML = `activity: ${activity}<br><br>
+            type: ${type}<br><br>
+            participants: ${participants}<br><br>
+            price: ${price}`;
+          }
+        };
+
+        request.send();
+      }
+    </script>
+  </body>
+</html>
